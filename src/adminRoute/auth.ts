@@ -22,7 +22,7 @@ router.post("/signup", async (req, res) => {
 
         });
         
-        res.status(201).json({ message: "Admin created successfully" ,"data":user});
+        res.status(201).json({ message: "Admin created successfully" ,user});
     } catch (error: unknown) {
 
 
@@ -56,7 +56,7 @@ router.post("/signin", async (req, res) => {
             maxAge: 24 * 60 * 60 * 1000,// one-week
             
         })
-        res.status(201).json({ message: "Admin created successfully" ,"data":user});
+        res.status(201).json({ message: "Admin created successfully" ,user});
     } catch (error: unknown) {
         if (typeof (error) === "string") {
             // console.error("String error:", error);
@@ -80,7 +80,7 @@ router.post("/course", Authentication, async (req, res) => {
     try {
         const course = new Course({ title, description, price, imageLink });
         await course.save();
-        res.status(201).json({ message: "Course created successfully" ,"data":course});
+        res.status(201).json({ message: "Course created successfully" ,course});
 
     } catch (error: unknown) {
         if (typeof (error) === "string") {
