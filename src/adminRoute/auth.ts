@@ -12,7 +12,7 @@ router.post("/signup", async (req, res) => {
     try {
         const user = new Admin({ username, email, password });
          await user.save();
-        const token = jwt.sign({ username, email, password }, secret, { expiresIn: '24h' });
+        const token =  jwt.sign({ username, email}, secret, { expiresIn: '24h' });
         res.cookie("token", `Bearer ${token}`, {
             // httpOnly: true,
             // sameSite: "strict",
@@ -49,7 +49,7 @@ router.post("/signin", async (req, res) => {
             return res.status(404).json({ message: 'Invalid credential' });
         }
 
-        const token = jwt.sign({ username, email, password }, secret, { expiresIn: '24h' });
+        const token = jwt.sign({ username, email}, secret, { expiresIn: '24h' });
         res.cookie("token", `Bearer ${token}`, {
             // httpOnly: true,
             // sameSite: "strict",

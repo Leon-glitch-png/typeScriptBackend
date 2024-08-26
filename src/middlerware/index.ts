@@ -8,7 +8,7 @@ import { NextFunction,Request,Response } from "express";
 
  export  function Authentication( req:Request,res:Response,next:NextFunction){
 
-    console.log(req.cookies); // Log cookies to see if they are coming
+    console.log(req.cookies,"hi from middleware"); // Log cookies to see if they are coming
 
     const auth = req.cookies?.token;
     if (!auth) {
@@ -18,7 +18,7 @@ import { NextFunction,Request,Response } from "express";
     const token = (auth.split(" "))[1];
 
     try{
-        const decoded = jwt.verify(token, secret);
+        const decoded =  jwt.verify(token, secret);
         next();
     }catch(e){
         return res.status(401).json({ message: "You are not authenticated" });
