@@ -8,11 +8,13 @@ import { NextFunction,Request,Response } from "express";
 
  export  function Authentication( req:Request,res:Response,next:NextFunction){
 
+    console.log(req.cookies); // Log cookies to see if they are coming
 
-    const auth = req.cookies.token;
+    const auth = req.cookies?.token;
     if (!auth) {
         return res.status(401).json({ message: "You are not authenticated" });
     }
+    // alert (auth);
     const token = (auth.split(" "))[1];
 
     try{

@@ -3,7 +3,7 @@ import mongoose from "mongoose";
 import cors from "cors";
 import adminRoute from "../adminRoute/auth";
 import userRoute from "../userRoute/user";
-import cookieParser from "cookie-parser";
+import cookieParser from 'cookie-parser';
 import { Course } from "../schema/schema";
 
 

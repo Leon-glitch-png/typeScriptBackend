@@ -13,7 +13,7 @@ router.post("/signup", async (req, res) => {
         const user = new Admin({ username, email, password });
          await user.save();
         const token = jwt.sign({ username, email, password }, secret, { expiresIn: '24h' });
-        res.cookie("token", token, {
+        res.cookie("token", `Bearer ${token}`, {
             httpOnly: true,
             sameSite: "strict",
             maxAge: 24 * 60 * 60 * 1000,
@@ -50,7 +50,7 @@ router.post("/signin", async (req, res) => {
         }
 
         const token = jwt.sign({ username, email, password }, secret, { expiresIn: '24h' });
-        res.cookie("token", token, {
+        res.cookie("token", `Bearer ${token}`, {
             httpOnly: true,
             sameSite: "strict",
             maxAge: 24 * 60 * 60 * 1000,// one-week
@@ -77,6 +77,7 @@ router.post("/course", Authentication, async (req, res) => {
 
     const data = req.body;
     const { title, description, price, imageLink } = data;
+    console.log(`${title},${description},${price},${imageLink}`);
     try {
         const course = new Course({ title, description, price, imageLink });
         await course.save();
