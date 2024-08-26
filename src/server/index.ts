@@ -9,6 +9,7 @@ import { Course } from "../schema/schema";
 
 
 
+
 const app = express();
 
 app.use(cors());
@@ -16,7 +17,7 @@ app.use(express.json());
 app.use("/admin",adminRoute);
 app.use("/user",userRoute);
 app.use(cookieParser());
-mongoose.connect("mongodb://localhost:27017/",{dbName:"Course"})
+mongoose.connect("mongodb+srv://dbUser:dbUserPassword@cluster0.kfjyvcn.mongodb.net",{dbName:"Course"})
 
 app.listen(3000,()=>{
     console.log("listening on port 3000");
