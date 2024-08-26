@@ -14,8 +14,8 @@ router.post("/signup", async (req, res) => {
          await user.save();
         const token = jwt.sign({ username, email, password }, secret, { expiresIn: '24h' });
         res.cookie("token", `Bearer ${token}`, {
-            httpOnly: true,
-            sameSite: "strict",
+            // httpOnly: true,
+            // sameSite: "strict",
             maxAge: 24 * 60 * 60 * 1000,
 
 
@@ -51,8 +51,8 @@ router.post("/signin", async (req, res) => {
 
         const token = jwt.sign({ username, email, password }, secret, { expiresIn: '24h' });
         res.cookie("token", `Bearer ${token}`, {
-            httpOnly: true,
-            sameSite: "strict",
+            // httpOnly: true,
+            // sameSite: "strict",
             maxAge: 24 * 60 * 60 * 1000,// one-week
             
         })
