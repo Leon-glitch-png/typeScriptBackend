@@ -1,10 +1,11 @@
 import jwt from "jsonwebtoken";
-import express from "express";
+import express,{NextFunction,Request,Response} from "express";
 const router = express.Router();
-import { Authentication, secret } from "../middlerware/index";
+import { Authentication, secret ,} from "../middlerware/index";
 import { Admin, Course } from "../schema/schema";
-import { runInNewContext } from "vm";
-import { strict } from "assert";
+
+router.use(express.json());
+
 
 router.post("/signup", async (req, res) => {
     const data = req.body;
@@ -13,16 +14,21 @@ router.post("/signup", async (req, res) => {
         const user = new Admin({ username, email, password });
          await user.save();
         const token =  jwt.sign({ username, email}, secret, { expiresIn: '24h' });
-        res.cookie("token", `Bearer ${token}`, {
-            // httpOnly: true,
-            // sameSite: "strict",
-            maxAge: 24 * 60 * 60 * 1000,
+        // res.cookie("token", `Bearer ${token}`, {
+        //     httpOnly: true,
+        //     sameSite: "strict",
+        //     maxAge: 24 * 60 * 60 * 1000, // 1 day
+        // });
 
 
-
-        });
+res.cookie("token", token, {
+    httpOnly: true,
+    sameSite: "lax", // "strict" or "none" depending on your use case
+    secure: process.env.NODE_ENV === "production", // Ensure cookies are secure in production
+    maxAge: 24 * 60 * 60 * 1000 // 1 day
+});
         
-        res.status(201).json({ message: "Admin created successfully" ,user});
+        res.status(200).json({ message: "Admin created successfully" ,user});
     } catch (error: unknown) {
 
 
@@ -50,12 +56,20 @@ router.post("/signin", async (req, res) => {
         }
 
         const token = jwt.sign({ username, email}, secret, { expiresIn: '24h' });
-        res.cookie("token", `Bearer ${token}`, {
-            // httpOnly: true,
-            // sameSite: "strict",
-            maxAge: 24 * 60 * 60 * 1000,// one-week
-            
-        })
+        // res.cookie("token", `Bearer ${token}`, {
+        //     httpOnly: true,
+        //     sameSite: "strict",
+        //     maxAge: 24 * 60 * 60 * 1000, // 1 day
+        // });
+
+
+res.cookie("token", token, {
+    httpOnly: true,
+    sameSite: "lax", // "strict" or "none" depending on your use case
+    secure: process.env.NODE_ENV === "production", // Ensure cookies are secure in production
+    maxAge: 24 * 60 * 60 * 1000 // 1 day
+});
+console.log("cookies :", req.cookies);
         res.status(201).json({ message: "Admin created successfully" ,user});
     } catch (error: unknown) {
         if (typeof (error) === "string") {
@@ -77,7 +91,7 @@ router.post("/course", Authentication, async (req, res) => {
 
     const data = req.body;
     const { title, description, price, imageLink } = data;
-    console.log(`${title},${description},${price},${imageLink}`);
+    // console.log(`${title},${description},${price},${imageLink}`);
     try {
         const course = new Course({ title, description, price, imageLink });
         await course.save();
