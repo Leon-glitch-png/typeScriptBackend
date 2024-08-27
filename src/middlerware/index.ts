@@ -10,7 +10,7 @@ import { NextFunction,Request,Response } from "express";
 
 export function Authentication(req: Request, res: Response, next: NextFunction) {
     // Log cookies to check if they are coming in the request
-    // console.log('Cookies:', req.cookies);
+    console.log('Cookies:', req.cookies);
 
     const auth = req.cookies?.token;
     if (!auth) {
