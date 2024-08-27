@@ -14,19 +14,19 @@ router.post("/signup", async (req, res) => {
         const user = new Admin({ username, email, password });
          await user.save();
         const token =  jwt.sign({ username, email}, secret, { expiresIn: '24h' });
-        // res.cookie("token", `Bearer ${token}`, {
-        //     httpOnly: true,
-        //     sameSite: "strict",
-        //     maxAge: 24 * 60 * 60 * 1000, // 1 day
-        // });
+        res.cookie("token", `Bearer ${token}`, {
+            // httpOnly: true,
+            // sameSite: "strict",
+            maxAge: 24 * 60 * 60 * 1000, // 1 day
+        });
 
 
-res.cookie("token", token, {
-    httpOnly: true,
-    sameSite: "lax", // "strict" or "none" depending on your use case
-    secure: process.env.NODE_ENV === "production", // Ensure cookies are secure in production
-    maxAge: 24 * 60 * 60 * 1000 // 1 day
-});
+// res.cookie("token", token, {
+//     httpOnly: true,
+//     sameSite: "lax", // "strict" or "none" depending on your use case
+//     secure: process.env.NODE_ENV === "production", // Ensure cookies are secure in production
+//     maxAge: 24 * 60 * 60 * 1000 // 1 day
+// });
         
         res.status(200).json({ message: "Admin created successfully" ,user});
     } catch (error: unknown) {
@@ -56,20 +56,20 @@ router.post("/signin", async (req, res) => {
         }
 
         const token = jwt.sign({ username, email}, secret, { expiresIn: '24h' });
-        // res.cookie("token", `Bearer ${token}`, {
-        //     httpOnly: true,
-        //     sameSite: "strict",
-        //     maxAge: 24 * 60 * 60 * 1000, // 1 day
-        // });
+        res.cookie("token", `Bearer ${token}`, {
+            // httpOnly: true,
+            // sameSite: "strict",
+            maxAge: 24 * 60 * 60 * 1000, // 1 day
+        });
 
 
-res.cookie("token", token, {
-    httpOnly: true,
-    sameSite: "lax", // "strict" or "none" depending on your use case
-    secure: process.env.NODE_ENV === "production", // Ensure cookies are secure in production
-    maxAge: 24 * 60 * 60 * 1000 // 1 day
-});
-console.log("cookies :", req.cookies);
+// res.cookie("token", token, {
+//     httpOnly: true,
+//     sameSite: "lax", // "strict" or "none" depending on your use case
+//     secure: process.env.NODE_ENV === "production", // Ensure cookies are secure in production
+//     maxAge: 24 * 60 * 60 * 1000 // 1 day
+// });
+// console.log("cookies :", req.cookies);
         res.status(201).json({ message: "Admin created successfully" ,user});
     } catch (error: unknown) {
         if (typeof (error) === "string") {
